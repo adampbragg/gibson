@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Contact | Home Remodel RFP" description="Contact information for proposal">
+  <Fragment slot="nav"><Nav /></Fragment>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-10 space-y-6">
+    <h1 class="text-3xl font-semibold">Contact</h1>
+    <p class="text-slate-700">Use the email below to submit your proposal or request a site visit.</p>
+    <a class="inline-flex items-center justify-center rounded bg-slate-900 px-4 py-2 text-white hover:bg-slate-800" href="mailto:rfp@example.com">rfp@example.com</a>
+  </section>
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

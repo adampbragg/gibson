@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Timeline | Home Remodel RFP" description="Estimated project timeline">
+  <Fragment slot="nav"><Nav /></Fragment>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-10 space-y-6">
+    <h1 class="text-3xl font-semibold">Timeline</h1>
+    <ol class="list-decimal pl-5 space-y-2 text-slate-700">
+      <li>Site visit and measurements</li>
+      <li>Design and approvals</li>
+      <li>Demolition and rough-in</li>
+      <li>Finishes and inspection</li>
+    </ol>
+  </section>
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
