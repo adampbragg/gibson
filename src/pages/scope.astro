@@ -8,12 +8,30 @@ import Footer from "../components/Footer.astro";
   <Fragment slot="nav"><Nav /></Fragment>
   <section class="mx-auto max-w-3xl px-4 sm:px-6 py-10 space-y-6">
     <h1 class="text-3xl font-semibold">Project Scope</h1>
-    <p class="text-slate-700">Outline the rooms, materials, and must-haves for the remodel. Include any constraints and measurements.</p>
-    <ul class="list-disc pl-5 space-y-2 text-slate-700">
-      <li>Kitchen: cabinetry, appliances, countertops.</li>
-      <li>Bathroom: tiling, fixtures, ventilation.</li>
-      <li>Structural changes: walls, windows, doors.</li>
-    </ul>
+    <section class="space-y-3">
+      <h2 class="text-2xl font-semibold">Main House ("The Box")</h2>
+      <ul class="list-disc pl-5 space-y-2 text-slate-700">
+        <li>Approximately 2,400 sq ft, 2-story.</li>
+        <li>Currently mid-construction.</li>
+        <li>Framing: floor joists are 2x8; wall studs are 2x6.</li>
+        <li>Potential for 4 bedrooms and 2 baths downstairs. Bedrooms could be locked off to create a studio (Junior ADU) and/or a 2 BR / 2 BA lock-off Junior ADU. <span class="font-medium">Plans and permits needed.</span></li>
+        <li>Upstairs is planned and permitted/approved for kitchen, living, dining, and a half bath. Desired upgrade to a full bath (shower only).</li>
+        <li>Includes a previously permitted/approved woodburning stove.</li>
+        <li>Downstairs: remove 3–5 walls to create an entry; add at least 4 new walls.</li>
+        <li>Upstairs: complete framing and trim-out; install appliances.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-2xl font-semibold">Garage Building</h2>
+      <ul class="list-disc pl-5 space-y-2 text-slate-700">
+        <li>Two-car garage.</li>
+        <li>One-car garage.</li>
+        <li>1 BR / 1 BA unpermitted ADU reportedly inhabited for 50+ years (documented statements available). Needs laminate flooring and a gas stove to be complete; washer and dryer hookups are inside the unit.</li>
+        <li>Roof improvements completed with plans and permits. There are now two additional rooms and a loft/landing upstairs that are not trimmed out and have no plumbing. No external ingress/egress; current access via interior garage staircase and landing.</li>
+        <li><span class="font-medium">Note:</span> Owner has plans for this building; appears process to legalize additional living space was started, but to current knowledge, no plans were submitted for approval.</li>
+      </ul>
+    </section>
   </section>
   <Fragment slot="footer"><Footer /></Fragment>
 </BaseLayout>

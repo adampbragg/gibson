@@ -2,18 +2,73 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+
+import fs from "node:fs";
+import path from "node:path";
+// Prefer optimized assets if available, else fall back to originals
+const optDirUrl = new URL("../../public/optimized/images/", import.meta.url);
+const optDir = optDirUrl.pathname;
+const srcDirUrl = new URL("../../public/images/", import.meta.url);
+const srcDir = srcDirUrl.pathname;
+
+/**
+ * Read images from a directory (non-recursive), filtering to common image extensions.
+ * @param {string} dir
+ */
+function readImagesFrom(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(f))
+    .sort();
+}
+
+let base = "/images";
+let files = readImagesFrom(optDir);
+if (files.length > 0) {
+  base = "/optimized/images";
+} else {
+  files = readImagesFrom(srcDir);
+}
+
+const images = files.map((f) => ({
+  src: `${base}/${f}`,
+  alt: path.parse(f).name.replace(/[-_]/g, " "),
+}));
 ---
 
 <BaseLayout title="Gallery | Home Remodel RFP" description="Images and videos for reference">
   <Fragment slot="nav"><Nav /></Fragment>
   <section class="mx-auto max-w-6xl px-4 sm:px-6 py-10 space-y-6">
     <h1 class="text-3xl font-semibold">Gallery</h1>
-    <p class="text-slate-700">Upload project photos and reference inspiration. Place assets in <code>public/images/</code> and <code>public/videos/</code>.</p>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      <img class="aspect-video w-full rounded border object-cover" src="/images/placeholder-1.jpg" alt="Placeholder 1" />
-      <img class="aspect-video w-full rounded border object-cover" src="/images/placeholder-2.jpg" alt="Placeholder 2" />
-      <img class="aspect-video w-full rounded border object-cover" src="/images/placeholder-3.jpg" alt="Placeholder 3" />
-      <img class="aspect-video w-full rounded border object-cover" src="/images/placeholder-4.jpg" alt="Placeholder 4" />
+    <!--<p class="text-slate-700">Upload project photos and reference inspiration. Place assets in <code>public/images/</code> and <code>public/videos/</code>.</p>-->
+    {images.length > 0 ? (
+      <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {images.map((img) => (
+          <img class="aspect-video w-full rounded border object-cover cursor-zoom-in" src={img.src} alt={img.alt} loading="lazy" />
+        ))}
+      </div>
+    ) : (
+      <div class="rounded border border-dashed p-6 text-slate-600">
+        No images found in <code>public/images/</code>. Add some images (png, jpg, jpeg, gif, webp, avif, svg) and reload.
+      </div>
+    )}
+
+    <!-- Lightbox modal -->
+    <div id="lightbox" aria-hidden="true" class="fixed inset-0 z-50 hidden">
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      <!-- Dialog -->
+      <div class="relative z-10 flex h-full w-full items-center justify-center p-4">
+        <div class="max-w-6xl w-full">
+          <button id="lightbox-close" class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M16.24 7.76a.75.75 0 0 1 0 1.06l-7.42 7.42a.75.75 0 1 1-1.06-1.06l7.42-7.42a.75.75 0 0 1 1.06 0Zm-8.48 0a.75.75 0 0 1 1.06 0l7.42 7.42a.75.75 0 1 1-1.06 1.06L7.76 8.82a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
+          </button>
+          <div class="relative mx-auto">
+            <img id="lightbox-image" alt="Expanded image" class="max-h-[80vh] w-full rounded-md object-contain shadow-lg" />
+          </div>
+        </div>
+      </div>
     </div>
     <div class="mt-6">
       <video class="w-full rounded border" controls src="/videos/placeholder.mp4"></video>
@@ -21,3 +76,5 @@ import Footer from "../components/Footer.astro";
   </section>
   <Fragment slot="footer"><Footer /></Fragment>
 </BaseLayout>
+
+<script type="module" src="/src/scripts/gallery.ts"></script>
